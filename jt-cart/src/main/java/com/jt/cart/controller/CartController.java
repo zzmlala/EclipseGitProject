@@ -38,7 +38,7 @@ public class CartController {
 			logger.error("报错信息:"+e.getMessage());
 			//logger.error("~~~~~~~~~~~~~~~~~"+e.getMessage());
 		}
-		
+		      
 		return SysResult.build(201,"查询购物车信息失败");
 	}
 	
