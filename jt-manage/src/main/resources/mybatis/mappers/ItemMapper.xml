@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jt.manage.mapper.ItemMapper">
+	
+	<select id="findItemAll" resultType="Item">
+		select * from tb_item order by updated desc
+	</select>
+	
+	<select id="findItemCount" resultType="int">
+		select count(*) from tb_item
+	</select>
+	
+	<!--
+		insert into item(id,name) values(?,?)
+		"1" "tom"
+		
+		需求:
+			select * from item where age > 18
+		#号
+			特点:
+			1.可以进行对象或者参数的取值
+			2.在进行取值操作时会为数据添加一对""号
+			3.使用#号取值自动添加预编译的效果
+			总结:能用#号不用$
+		$符
+			特点: 
+			1.以字段名称为参数时使用$
+			2.使用$符没有预编译的效果
+	  -->
+	<select id="findItemBypage" resultType="Item">
+		select * from tb_item order by updated desc limit #{start},#{rows}
+	</select>
+	
+	<!--根据商品分类Id查询商品分类名称  -->
+	<select id="findItemCatName" resultType="string">
+		select name from tb_item_cat where id = #{id}
+	</select>
+	
+	<!--批量的的修改数据
+		collection:表示集合
+		如果参数为[]数组   array
+		如果参数为List集合   list
+		如果参数为Map      map中的key
+	  -->
+	<update id="updateStatus">
+		update tb_item set status = #{status},updated = now()
+		where id in (
+			<foreach collection="ids" item="id" separator=",">
+				#{id}
+			</foreach>
+		)
+	</update>
+	
+	
+	
+	
+	
+</mapper>
